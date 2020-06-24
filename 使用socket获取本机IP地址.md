@@ -92,3 +92,5 @@ def get_host_ip():
  
     return ip
 ```
+
+![NwjAbj.jpg](https://s1.ax1x.com/2020/06/25/NwjAbj.jpg)
