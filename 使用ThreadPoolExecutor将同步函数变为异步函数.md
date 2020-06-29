@@ -49,13 +49,14 @@ asyncio.run(some_io_block())
 
 
 上面的`thread_executor.submit`返回的是一个`future`对象，但是并不是一个符合`asyncio`模块的`future`是不可等待的，即无法调用`await`去等待该对象。
-s
+
 通过`wrap_future`函数可以将`concurrent.futures.Future`变成`asyncio.Future`实现可等待。
 
 这样我们可以不用显示的获取当前的`loop`也可以直接去将同步函数变成协程去执行了。
 
 关于上面代码的更多解释可以阅读我之前总结的一篇文章[Asyncio中将同步函数改为异步调用](https://zhaobugs.com/2019/06/21/Asyncio%E4%B8%AD%E5%B0%86%E5%90%8C%E6%AD%A5%E5%87%BD%E6%95%B0%E6%94%B9%E4%B8%BA%E5%BC%82%E6%AD%A5%E8%B0%83%E7%94%A8/)
 
+> 除了可以使用线程方式来模拟协程 我们也可以使用进程方式来实现
 
 <div  style="text-align: center;">    
 <img src="https://s1.ax1x.com/2020/06/25/NwjAbj.jpg" alt="求微信赞赏" border="0"  width="230" height="230" />
