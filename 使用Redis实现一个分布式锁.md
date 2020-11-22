@@ -41,6 +41,7 @@
 **Python + Redis + Lua 实现一个分布式锁**
 
 ```python
+import uuid
 from aioredis.commands.string import StringCommandsMixin
 
 class MLock(AsyncContextManager):
@@ -64,12 +65,17 @@ end
 '''
 
     def __init__(self, cache, key, expire):
+        """
+        cache 为Redis连接客户端
+        key 为锁的redis key
+        expire 为锁的过期时间
+        """
 
         self._cache = cache
         self._expire = expire
 
         self._lock_tag = f'process_lock_{key}'
-        self._lock_val = Utils.uuid1().encode()
+        self._lock_val = uuid.uuid1().hex.encode()
 
         self._locked = False
 
@@ -120,7 +126,7 @@ end
             # 循环尝试加锁
             async for _ in AsyncCirculator(timeout):
 
-                if await self._cache._set(**params):
+                if await self._cache.set(**params):
                     self._locked = True
 
                 if self._locked or timeout == 0:
